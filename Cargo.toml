@@ -1,0 +1,23 @@
+[package]
+name = "ce-protocol-ws"
+version = "0.1.0"
+edition = "2024"
+license = "AGPL-3.0-only"
+repository = "https://github.com/ce-net/ce-protocol-ws"
+authors = ["Leif Rydenfalk <ledamecrydenfalk@gmail.com>"]
+description = "CE protocol adapter: carries node<->node mesh link traffic over plain WebSocket connections — the reference transport that extends the mesh onto media libp2p does not speak."
+
+[[bin]]
+name = "ce-protocol-ws"
+path = "src/main.rs"
+
+[dependencies]
+ce-lane = { git = "https://github.com/ce-net/ce" }
+anyhow = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "net", "io-util", "macros", "time", "sync"] }
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-native-roots"] }
+futures-util = "0.3"
+hex = "0.4"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+directories = "5"

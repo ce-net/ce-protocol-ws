@@ -1,0 +1,22 @@
+[app]
+name = "ce-protocol-ws"
+version = "0.1.0"
+summary = "Protocol adapter: carries node<->node mesh link traffic over WebSocket connections"
+runtime = "native"
+provides = ["transport-adapter"]
+
+[native]
+bin = "ce-protocol-ws"
+
+# The transport must reach the network (its whole job is carrying frames over a ws medium)
+# and the node's lane socket. Registration is separately host-gated by membrane-policy
+# [transport] — installing this app does NOT by itself let it carry links.
+[sandbox]
+tier = "gvisor"
+net = "egress:*"
+
+[deps]
+capabilities = ["net:egress"]
+
+[daemon]
+enabled = true
