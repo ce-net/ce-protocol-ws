@@ -118,9 +118,12 @@ pub async fn run(ep: ce_lane::Endpoint, slot_size: u32, cfg: Config) -> Result<(
                             match sender {
                                 // A full conn queue sheds the frame; the node's pending call
                                 // times out and falls back to libp2p (fail open).
-                                Some(s) => {
-                                    let _ = s.try_send(frame);
-                                }
+                                Some(s) => match s.try_send(frame) {
+                                    Ok(()) => debug!("frame -> {} queued", hex::encode(&to[..4])),
+                                    Err(e) => {
+                                        warn!("frame -> {} SHED ({e})", hex::encode(&to[..4]))
+                                    }
+                                },
                                 None => {
                                     debug!("no live connection for {}", hex::encode(&to[..4]))
                                 }
@@ -260,7 +263,9 @@ where
 
     let outbound = async {
         while let Some(frame) = conn_rx.recv().await {
+            let n = frame.len();
             sink.send(Message::Binary(frame)).await.context("ws send")?;
+            debug!("{n}B -> wire ({})", hex::encode(&far[..4]));
         }
         Ok::<_, anyhow::Error>(())
     };
@@ -270,6 +275,7 @@ where
             match msg.context("ws recv")? {
                 Message::Binary(frame) => {
                     // Opaque signed bytes; the NODE verifies. We only carry.
+                    debug!("{}B <- wire ({})", frame.len(), hex::encode(&far[..4]));
                     to_node_in
                         .send(TransportToNode::Frame { frame: frame.to_vec() })
                         .context("node writer gone")?;
