@@ -20,3 +20,7 @@ capabilities = ["net:egress"]
 
 [daemon]
 enabled = true
+
+[native.artifacts]
+"darwin-amd64" = "6946ee5af5e8a6d9e5812e5b764826747933a061ce8538c06193ecddca7acd5d"
+"linux-amd64"  = "65021b0588e39bc635032b13079167495d1331cdc9b58cd871dd25aa415f5238"
