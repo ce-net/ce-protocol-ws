@@ -31,7 +31,14 @@ ESP-NOW, and raw ethernet (see `PLAN/ce-protocol-adapters-and-embedded.md`, Work
 - Frames are signed, not encrypted. On untrusted networks run the medium over `wss://` (TLS),
   or treat payloads as visible to the wire.
 
-## Config (env)
+## Config (env, with a file fallback)
+
+Installable-daemon path (B8): `ce app install ce-protocol-ws` runs the adapter under the
+appmgr supervisor with no stored env — the adapter then reads `<ce data dir>/protocol-ws.env`
+(KEY=VALUE lines, `#` comments; real env vars win over the file). Write that file once per
+node (`CE_WS_LISTEN=...` on the public side, `CE_WS_DIAL=`/`CE_WS_PEERS=` on the NAT side)
+and the standing link survives reboots. Override the path with `CE_WS_CONFIG`.
+
 
 | Var | Meaning |
 |---|---|
