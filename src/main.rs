@@ -1,7 +1,8 @@
 //! ce-protocol-ws — the reference PROTOCOL adapter: carries the mesh's node<->node link
 //! traffic over plain WebSocket connections, so two nodes reach each other on media libp2p
-//! does not speak (and the same adapter shape later carries serial/ESP-NOW/ethernet — see
-//! `PLAN/ce-protocol-adapters-and-embedded.md`, Workstream B).
+//! does not speak (and the same adapter shape later carries serial/ESP-NOW/ethernet).
+//! Protocol links are transport adapters: normal ceapps that carry signed mesh frames over
+//! another medium, invisible to apps.
 //!
 //! Both machines run this ceapp; every ceapp on both nodes gets the new path with zero code
 //! changes. The node routes directed traffic to registered peers through us BEFORE libp2p

@@ -3,8 +3,9 @@
 The reference PROTOCOL adapter: it carries the CE mesh's node-to-node link traffic over plain
 WebSocket connections, so two nodes reach each other on media libp2p does not speak. Both
 machines run this ceapp; every app on both nodes gets the new path with zero code changes —
-the transparency invariant applied to links. The same adapter shape later carries serial,
-ESP-NOW, and raw ethernet (see `PLAN/ce-protocol-adapters-and-embedded.md`, Workstream B).
+the transparency invariant applied to links. Protocol links are transport adapters: normal
+ceapps that carry signed mesh frames over another medium, invisible to apps. The same adapter
+shape later carries serial, ESP-NOW, and raw ethernet.
 
 ## How it works
 
